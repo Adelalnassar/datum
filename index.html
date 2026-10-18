@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Datum - AI drafting connector for AutoCAD and Revit</title>
+<meta name="description" content="Datum connects AutoCAD and Revit to the AI assistant you already use. 82 AutoCAD tools, 70 Revit tools, 27 drafting skills. Everything stays on your PC.">
+<style>
+:root{--bg:#0f1115;--card:#181b22;--card2:#1e222b;--tx:#e6e6e6;--mut:#a8b0bd;--acc:#7ee787;--blue:#58a6ff;--line:#262b35}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--tx);margin:0;line-height:1.6}
+a{color:var(--blue)}
+.wrap{max-width:960px;margin:0 auto;padding:0 18px}
+nav{position:sticky;top:0;background:rgba(15,17,21,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);z-index:5}
+nav .wrap{display:flex;gap:18px;align-items:center;height:52px;overflow-x:auto;white-space:nowrap}
+nav b{color:var(--acc);font-size:17px;margin-right:auto}
+nav a{color:var(--mut);text-decoration:none;font-size:13.5px}
+nav a:hover{color:var(--tx)}
+.hero{padding:64px 0 40px;text-align:center}
+.hero h1{font-size:44px;margin:0 0 10px;letter-spacing:.5px}
+.hero p{color:var(--mut);font-size:18px;max-width:680px;margin:0 auto}
+.stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 22px}
+.stat b{display:block;font-size:26px;color:var(--acc)}
+.stat span{font-size:12.5px;color:var(--mut)}
+section{padding:34px 0 6px}
+h2{font-size:24px;margin:0 0 6px}
+h3{font-size:16px;margin:0 0 8px}
+.lead{color:var(--mut);margin:0 0 18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin-bottom:16px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.pill{display:inline-block;background:var(--card2);border:1px solid var(--line);border-radius:99px;padding:3px 12px;font-size:12.5px;color:var(--mut);margin:0 6px 6px 0}
+.price{font-size:30px;font-weight:700;color:var(--acc)}
+.mut{color:var(--mut)} .small{font-size:13px}
+ul{padding-left:20px;margin:6px 0}
+li{margin:4px 0}
+.steps{list-style:none;counter-reset:s;padding:0;margin:8px 0 0}
+.steps>li{counter-increment:s;position:relative;padding:0 0 20px 46px;border-left:1px solid var(--line);margin-left:14px}
+.steps>li:last-child{border-left:none;padding-bottom:0}
+.steps>li::before{content:counter(s);position:absolute;left:-14px;top:-2px;width:28px;height:28px;border-radius:50%;background:var(--card);border:1px solid var(--acc);color:var(--acc);display:flex;align-items:center;justify-content:center;font-size:13px}
+.pr{background:var(--card2);border:1px solid var(--line);border-radius:8px;padding:9px 14px;margin-bottom:8px;font-size:14px}
+.pr:before{content:'\201C';color:var(--acc);margin-right:4px}
+.pr:after{content:'\201D';color:var(--acc);margin-left:2px}
+.tabs{display:flex;gap:8px;margin-bottom:12px}
+.tabs button{background:var(--card2);border:1px solid var(--line);border-radius:8px;color:var(--mut);padding:7px 16px;font-size:13.5px;cursor:pointer}
+.tabs button.on{color:var(--tx);border-color:var(--acc)}
+input[type=search]{width:100%;background:var(--card2);border:1px solid var(--line);border-radius:8px;color:var(--tx);padding:10px 14px;font-size:14px;outline:none;margin-bottom:12px}
+.tools{display:flex;flex-wrap:wrap;gap:6px}
+.tools code{background:#10131a;border:1px solid var(--line);border-radius:6px;padding:3px 9px;font:12.5px Consolas,monospace;color:var(--acc)}
+details{border-top:1px solid var(--line);padding:10px 0}
+summary{cursor:pointer;font-weight:600}
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}
+.skills div{background:var(--card2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:13.5px}
+.skills b{color:var(--acc);display:block;font-size:13px;font-family:Consolas,monospace;margin-bottom:2px}
+.ex{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:12px}
+.ex .q{font-size:15px;margin-bottom:6px}
+.ex .q:before{content:'\201C';color:var(--acc)} .ex .q:after{content:'\201D';color:var(--acc)}
+.ex .d{color:var(--mut);font-size:13.5px}
+.ex .u{margin-top:6px}
+.ex .u code{background:#10131a;border:1px solid var(--line);border-radius:6px;padding:2px 8px;font:12px Consolas,monospace;color:var(--acc);margin-right:5px;display:inline-block;margin-bottom:4px}
+.ex h4{margin:18px 0 8px;color:var(--blue);font-size:13px;text-transform:uppercase;letter-spacing:.8px}
+footer{border-top:1px solid var(--line);margin-top:40px;padding:26px 0 44px;color:var(--mut);font-size:13px;text-align:center}
+@media(max-width:560px){.hero h1{font-size:34px}}
+</style>
+</head>
+<body>
+<nav><div class="wrap"><b>Datum</b><a href="#what">What it does</a><a href="#setup">Setup</a><a href="#examples">Examples</a><a href="#editions">Editions</a><a href="#tools">Tools</a><a href="#skills">Skills</a><a href="#privacy">Privacy</a><a href="#support">Support</a></div></nav>
+
+<div class="wrap">
+<div class="hero">
+  <h1>Datum</h1>
+  <p>Chat with your drawings and models. Datum connects <b>AutoCAD</b> and <b>Revit</b> to the AI assistant you already use, so it can read what is open and draft in it.</p>
+  <div class="stats">
+    <div class="stat"><b>82</b><span>AutoCAD tools</span></div>
+    <div class="stat"><b>70</b><span>Revit tools</span></div>
+    <div class="stat"><b>27</b><span>drafting skills</span></div>
+    <div class="stat"><b>100%</b><span>runs on your PC</span></div>
+  </div>
+</div>
+
+<section id="what">
+  <h2>What it does</h2>
+  <p class="lead">You ask in plain language. Datum gives your AI assistant real CAD tools, so it works with real entities on proper layers, not pictures of drawings.</p>
+  <div class="grid2">
+    <div class="card"><h3>Draft</h3><p class="mut small">Construction details, sections and elevations with correct layers, lineweights, hatches, dimensions and leaders.</p></div>
+    <div class="card"><h3>Redraw from a source</h3><p class="mut small">Give it a PDF, scan, photo or sketch. It reads the written dimensions instead of guessing from pixels, then draws it natively.</p></div>
+    <div class="card"><h3>Edit what you have</h3><p class="mut small">Add elements, annotate, tag rooms, build schedules, rename layers, replace text, move and stretch entities.</p></div>
+    <div class="card"><h3>Check the drawing</h3><p class="mut small">A built-in QA pass looks at layers, text heights, annotation scale and dimension styles, and reports what is wrong.</p></div>
+    <div class="card"><h3>Layouts and plotting</h3><p class="mut small">Create layouts and viewports with scale and annotation scale, set up pages, and plot to PDF or PNG.</p></div>
+    <div class="card"><h3>Life-safety screening</h3><p class="mut small">Egress analysis on a floor plan against IBC 2024 chapters 9 and 10: occupant load, exits, travel distance, dead ends.</p></div>
+  </div>
+</section>
+
+<section id="setup">
+  <h2>Set up in 3 steps</h2>
+  <p class="lead">One minute, once. No terminal, no commands, no files to edit.</p>
+  <div class="card">
+  <ol class="steps">
+    <li><h3>Install from the Autodesk App Store</h3><span class="mut small">Then start AutoCAD or Revit. Datum loads automatically. The first time, the CAD program asks whether to trust the add-in: choose <b>Always Load</b>.</span></li>
+    <li><h3>Datum links your AI app</h3><span class="mut small">It connects itself to the AI apps already on your PC: Claude Desktop, the ChatGPT app, Cursor and Claude Code. Restart your AI app once.</span></li>
+    <li><h3>Ask it something about your file</h3><div style="margin-top:8px">
+      <div class="pr">What layers are in this drawing?</div>
+      <div class="pr">List every text item and check it for typos</div>
+      <div class="pr">Draw a 3000 x 5000 rectangle on a new layer called WALLS</div>
+      <div class="pr">Redraw this detail from the attached PDF</div>
+      <div class="pr">What levels are in this model?</div>
+      <div class="pr">Build this floor plan from the attached sketch</div></div></li>
+  </ol>
+  <p class="mut small" style="margin-bottom:0"><b>Use the installed desktop app, not the website.</b> claude.ai or chatgpt.com in a browser runs in the cloud and cannot reach CAD software on your PC. Datum does not include an AI subscription: you use your own AI account.</p>
+  </div>
+</section>
+
+<section id="examples">
+  <h2>Examples</h2>
+  <p class="lead">Things you can type to your AI assistant, and the Datum tools it uses to do them.</p>
+  <div class="card">
+    <div class="tabs"><button id="ex-dwg" class="on" onclick="showEx('dwg')">Datum DWG (AutoCAD)</button><button id="ex-rvt" onclick="showEx('rvt')">Datum RVT (Revit)</button></div>
+    <div id="exbox"></div>
+    <p class="mut small" style="margin-bottom:0">Your AI assistant decides which tools to call. The tool names are shown so you can see what is happening in your file.</p>
+  </div>
+</section>
+
+<section id="editions">
+  <h2>Editions and price</h2>
+  <p class="lead">One-time purchase through the Autodesk App Store. Each edition includes a 14-day free trial.</p>
+  <div class="grid2">
+    <div class="card"><h3>Datum DWG</h3><div class="price">$149</div><p class="mut small">One-time, commercial use.</p>
+      <span class="pill">AutoCAD 2016 to 2027</span><span class="pill">82 tools</span><span class="pill">27 skills</span></div>
+    <div class="card"><h3>Datum RVT</h3><div class="price">$149</div><p class="mut small">One-time, commercial use.</p>
+      <span class="pill">Revit 2022 to 2027</span><span class="pill">70 tools</span><span class="pill">drafting + sketch-to-model skills</span></div>
+  </div>
+</section>
+
+<section id="tools">
+  <h2>The tools</h2>
+  <p class="lead">Every action your AI assistant can take. Filter by name.</p>
+  <div class="card">
+    <div class="tabs"><button id="tb-dwg" class="on" onclick="show('dwg')">Datum DWG (AutoCAD)</button><button id="tb-rvt" onclick="show('rvt')">Datum RVT (Revit)</button></div>
+    <input type="search" id="q" placeholder="Filter tools, for example: dimension, wall, layer, hatch">
+    <div class="tools" id="tl"></div>
+    <p class="mut small" id="tc"></p>
+  </div>
+</section>
+
+<section id="skills">
+  <h2>Drafting skills</h2>
+  <p class="lead">Skills teach the AI how a professional drafts: layer standards, annotation, keying and checks. They are installed for you.</p>
+  <div class="skills">
+    <div><b>autocad-drafting</b>Layer, annotation and hatch conventions for permit-ready drawings.</div>
+    <div><b>autocad-drawing-audit</b>Reads an inherited drawing's real standards before you edit it.</div>
+    <div><b>autocad-source-to-drawing</b>Reproduces a PDF, scan or photo as a native drawing, then compares it item by item.</div>
+    <div><b>autocad-sections</b>Cuts and drafts building and wall sections.</div>
+    <div><b>autocad-elevations</b>Datum lines, opening marks and material call-outs.</div>
+    <div><b>autocad-elevation-projection</b>Projects elevations from a floor plan.</div>
+    <div><b>autocad-interior-elevations</b>Lettered interior elevations with mounting heights.</div>
+    <div><b>autocad-floor-plans</b>Room tags, areas, door and window schedules.</div>
+    <div><b>autocad-reflected-ceiling-plans</b>Ceiling grids, heights and legends.</div>
+    <div><b>autocad-partition-types</b>Wall-type legend, schedule and tags.</div>
+    <div><b>autocad-finish-schedule</b>Finish codes, legend and finish plan.</div>
+    <div><b>autocad-callouts-and-keying</b>Detail and section callouts that actually resolve.</div>
+    <div><b>autocad-details-library</b>Standard-details sheets, numbering and keynotes.</div>
+    <div><b>autocad-demolition-plans</b>Existing, remove and protect-in-place linework.</div>
+    <div><b>autocad-openings-details</b>Door and window head, jamb and sill details.</div>
+    <div><b>autocad-ceiling-details</b>Ceiling assemblies, bulkheads and edges.</div>
+    <div><b>autocad-masonry-details</b>Coursing, cavity, flashing, movement joints.</div>
+    <div><b>autocad-casework-details</b>Casework, blocking, counters and toe kicks.</div>
+    <div><b>autocad-steel-connections</b>Shear, moment and gusset connections with weld symbols.</div>
+    <div><b>autocad-structural-detailing</b>Bar marks, bar lists, formwork and structural notes.</div>
+    <div><b>autocad-equipment-foundations</b>Machine and equipment bases, anchors and grout.</div>
+    <div><b>autocad-site-grading</b>Spot levels, slopes, drainage and survey points.</div>
+    <div><b>autocad-signage</b>Sign types, mounting heights and tactile lettering.</div>
+    <div><b>autocad-conveying-details</b>Lift hoistway enclosures, pits and landings.</div>
+    <div><b>autocad-layout-fit</b>Fits title blocks to each layout's printable area.</div>
+    <div><b>dwg-life-safety-analyst</b>IBC 2024 egress screening on real wall geometry.</div>
+    <div><b>sketch-to-detail</b>Turns any photo, PDF or sketch into a drafted detail.</div>
+  </div>
+</section>
+
+<section id="privacy">
+  <h2>Privacy</h2>
+  <div class="card"><p style="margin-top:0">Everything stays on your PC. Datum listens on your own machine only (127.0.0.1) and never sends anything anywhere by itself. Your drawings reach your AI app only because you asked it a question in a conversation. The one internet call Datum makes is the licence check against the Autodesk App Store.</p>
+  <p class="mut small" style="margin-bottom:0">Datum adds a small entry to your AI apps' settings and copies its skills to your user profile. It keeps your existing settings, and one command (<code>DATUMUNLINK</code> in AutoCAD, "Unlink AI apps" in Revit) removes exactly what it added. Read the full <a href="https://docs.google.com/document/d/e/2PACX-1vQnbmG9Gckv-BZT80X1lJSY3AgLW0WeoxH_ITJyRfFbD8LZ4EP2M-37n-0Hp57wZR8q6Ud69hXlfAZM/pub">privacy policy</a>.</p></div>
+</section>
+
+<section id="support">
+  <h2>Support</h2>
+  <div class="card"><p style="margin-top:0">Email <a href="mailto:adel74nama@gmail.com">adel74nama@gmail.com</a>. Replies within 3 business days.</p>
+  <p class="mut small" style="margin-bottom:0">Please include your AutoCAD or Revit version, which AI app you use, and a screenshot of any error.</p></div>
+</section>
+</div>
+
+<footer><div class="wrap">Datum &middot; AI drafting connector for AutoCAD and Revit &middot; Sold through the Autodesk App Store</div></footer>
+
+<script>
+var T={
+dwg:"add_aligned_dimension add_angular_dimension add_diameter_dimension add_hatch add_linear_dimension add_mleader add_mtext add_radial_dimension add_text add_text_batch array_entities break_entity capture_view chamfer_lines copy_entities create_dimension_style create_layer create_layout create_table create_text_style create_viewport define_block delete_layer delete_layout draw_arc draw_circle draw_line draw_lines_batch draw_polyline edit_text erase_entities explode_entity extend_to_meet fillet_lines get_bounding_box get_document_info get_drawing_extents get_entities get_entity_geometry get_geometry get_layer_details get_layers get_selection get_stretch_result get_system_variable get_text_properties get_trace_result insert_block join_entities list_blocks list_dimension_styles list_documents list_layout_entities list_layouts list_linetypes list_plot_devices list_text_styles list_underlays load_linetype measure_area measure_distance mirror_entities move_entities offset_entity plot_to_file purge_unused rename_layer replace_text rotate_entities save_drawing scale_entities select_by_filter set_current_layer set_entity_properties set_layer_state set_page_setup set_system_variable set_viewport stretch_entities trace_underlay trim_at zoom_extents".split(" "),
+rvt:"capture_view change_type copy_elements copy_to_level create_array create_beam create_blend create_ceiling create_column create_detail_lines create_extrusion create_filled_region create_floor create_floors_from_cad create_grid create_level create_lines_from_cad create_radial_array create_revolve create_room create_sheet create_sweep create_text_note create_text_with_leader create_wall create_walls_from_cad cut_geometry delete_elements execute_python export_quantities_csv flip_elements get_bounding_boxes get_cad_lines get_callout_context get_document_info get_element_parameters get_element_quantities get_elements_by_category get_keynote_entries get_levels get_rooms get_schedule_data get_schedules get_selection get_views get_warnings group_elements join_geometry list_cad_links list_types load_family mirror_elements move_elements pin_elements place_detail_component place_dimension place_family_instance place_hosted_family place_keynote_tag place_room_tag place_view_on_sheet rotate_elements run_dynamo_graph set_keynote set_parameter switch_join_order tag_element uncut_geometry ungroup unjoin_geometry".split(" ")};
+var cur='dwg';
+function render(){
+  var q=document.getElementById('q').value.toLowerCase().replace(/ /g,'_');
+  var l=T[cur].filter(function(n){return n.indexOf(q)>-1});
+  document.getElementById('tl').innerHTML=l.map(function(n){return '<code>'+n+'</code>'}).join('');
+  document.getElementById('tc').textContent=l.length+' of '+T[cur].length+' tools shown';
+}
+function show(k){cur=k;document.getElementById('tb-dwg').className=k=='dwg'?'on':'';document.getElementById('tb-rvt').className=k=='rvt'?'on':'';render();}
+document.getElementById('q').addEventListener('input',render);
+render();
+var EX={
+dwg:[
+ ['Ask about the drawing',[
+  ['What layers are in this drawing?','Lists every layer with its colour, linetype, lineweight and state.',['get_layers','get_layer_details']],
+  ['What are the overall extents of the drawing?','Returns the bounding box so you know the size of what you have.',['get_drawing_extents','get_bounding_box']],
+  ['How long is this wall and what is the area of this room?','Measures distances and areas from the real geometry.',['select_by_filter','measure_distance','measure_area']]]],
+ ['Draw',[
+  ['Draw a 3000 x 5000 rectangle on a new layer called WALLS','Creates the layer, then draws the polyline on it.',['create_layer','draw_polyline']],
+  ['Add a linear dimension across the room and label it','Places a dimension in the right style and adds a note.',['add_linear_dimension','add_mtext']],
+  ['Hatch the concrete in this section and add a leader note','Fills the boundary with the hatch and attaches a leader.',['add_hatch','add_mleader']]]],
+ ['Edit what you have',[
+  ['Rename layer A-WALL-OLD to A-WALL and move everything on it 500 mm right','Renames, selects and moves, so the whole change is one request.',['rename_layer','select_by_filter','move_entities']],
+  ['Replace every "FFL" with "F.F.L" in the notes','Finds and replaces text across the drawing.',['replace_text']],
+  ['Extend these two lines to meet and fillet the corner','Edits the geometry in place.',['extend_to_meet','fillet_lines']]]],
+ ['Redraw from a source',[
+  ['Redraw this detail from the attached PDF','Reads the written dimensions in the source, writes a checklist, draws natively, then compares the result with the source.',['draw_lines_batch','add_text_batch','add_linear_dimension']],
+  ['Trace this scanned plan as an underlay and clean it up','Brings the file in as an underlay and traces it into editable entities.',['trace_underlay','get_trace_result']]]],
+ ['Check and plot',[
+  ['Check this drawing for text height and dimension style problems','Reads the layers and text and dimension styles and reports what is wrong.',['get_layers','list_text_styles','list_dimension_styles']],
+  ['Make an A1 layout with a viewport at 1:50 and plot it to PDF','Creates the layout and viewport, sets the scale and page, and plots.',['create_layout','create_viewport','set_viewport','plot_to_file']]]]
+],
+rvt:[
+ ['Ask about the model',[
+  ['What levels are in this model?','Lists every level with its elevation.',['get_levels']],
+  ['List all the rooms with their areas','Reads the rooms from the model, with names, numbers and areas.',['get_rooms','get_element_quantities']],
+  ['Are there any warnings I should fix?','Reads the model warnings.',['get_warnings']]]],
+ ['Build',[
+  ['Create a 5 m wall on Level 1','Places a native wall on the chosen level.',['create_wall','get_levels']],
+  ['Build this floor plan from the attached sketch','Reads the sketch, then creates levels, grids, walls, floors and rooms from the numbers it can read.',['create_level','create_grid','create_wall','create_floor','create_room']],
+  ['Turn this linked CAD drawing into Revit walls and floors','Converts the lines in the linked file into real model elements.',['list_cad_links','create_walls_from_cad','create_floors_from_cad']]]],
+ ['Draft in a view',[
+  ['Draft this detail in a new drafting view','Draws detail lines, filled regions and components in the view.',['create_detail_lines','create_filled_region','place_detail_component']],
+  ['Add dimensions and notes with leaders to this view','Annotates the view with dimensions, text notes and leaders.',['place_dimension','create_text_with_leader']]]],
+ ['Tag and schedule',[
+  ['Tag all the rooms and the doors on this plan','Places room tags and element tags.',['place_room_tag','tag_element']],
+  ['Give me the quantities of all walls as a CSV','Reads the quantities and exports them to a file.',['get_element_quantities','export_quantities_csv']],
+  ['Show me what is in the door schedule','Reads the data in the schedule.',['get_schedules','get_schedule_data']]]],
+ ['Sheets',[
+  ['Create sheet A-101 and put the ground floor plan on it','Creates the sheet and places the view.',['create_sheet','place_view_on_sheet']],
+  ['Pin all the grids and levels so nobody moves them','Pins the elements.',['pin_elements']]]]
+]};
+var exCur='dwg';
+function renderEx(){
+  var h='';
+  EX[exCur].forEach(function(g){
+    h+='<h4>'+g[0]+'</h4>';
+    g[1].forEach(function(e){
+      h+='<div class="ex"><div class="q">'+e[0]+'</div><div class="d">'+e[1]+'</div><div class="u">'+e[2].map(function(t){return '<code>'+t+'</code>'}).join('')+'</div></div>';
+    });
+  });
+  document.getElementById('exbox').innerHTML=h;
+}
+function showEx(k){exCur=k;document.getElementById('ex-dwg').className=k=='dwg'?'on':'';document.getElementById('ex-rvt').className=k=='rvt'?'on':'';renderEx();}
+renderEx();
+</script>
+</body>
+</html>
